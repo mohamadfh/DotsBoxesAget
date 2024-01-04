@@ -66,7 +66,7 @@ class Ai:
         return valids_list
 
     def has_won(self):
-        return self.line_drawn == (self.X - 1) * (self.Y - 1)
+        return self.line_drawn == self.X * (self.Y - 1) + (self.X - 1) * self.Y
 
     def minimax(self, depth, maximizingPlayer):
         if depth == 0 or self.has_won():
@@ -149,27 +149,25 @@ class Ai:
                 played_x, played_y, played_dir = [int(i) for i in input().split()]
                 self.draw_line(played_x, played_y, played_dir)
                 self.print_board()
-                self.line_drawn += 1
                 self.score -= self.check_completed_boxes(played_x, played_y, played_dir)
                 if self.check_completed_boxes(played_x, played_y, played_dir) > 0:
                     turn = PLAYER
                 else:
                     turn = AI
-                if self.line_drawn == (self.Y - 1) * (self.Y - 1):
+                if self.line_drawn == self.X * (self.Y - 1) + (self.X - 1) * self.Y:
                     print(self.score)
                     over = True
             else:
-                played_action, played_score = self.minimax(2, True)
+                played_action, played_score = self.minimax(3, True)
                 played_x, played_y, played_dir = played_action
                 self.draw_line(played_x, played_y, played_dir)
                 self.print_board()
-                self.line_drawn += 1
                 self.score += self.check_completed_boxes(played_x, played_y, played_dir)
                 if self.check_completed_boxes(played_x, played_y, played_dir) > 0:
                     turn = AI
                 else:
                     turn = PLAYER
-                if self.line_drawn == (self.Y - 1) * (self.Y - 1):
+                if self.line_drawn == self.X * (self.Y - 1) + (self.X - 1) * self.Y:
                     print(self.score)
                     over = True
             print(played_x, played_y, played_dir)
